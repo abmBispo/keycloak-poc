@@ -1,0 +1,61 @@
+version: "3"
+services:
+  phoenix:
+    restart: on-failure
+    build:
+      context: .
+      target: build
+      dockerfile: Dockerfile
+    command: mix phx.server
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - .:/phoenix
+      - phoenix_build:/phoenix/_build/
+      - phoenix_deps:/phoenix/deps
+
+  db:
+    restart: always
+    image: postgres:13
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - phoenix_db:/var/lib/postgresql/data/
+
+  key_cloak:
+    restart: on-failure
+    image: quay.io/keycloak/keycloak:15.0.2
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    links:
+      - db
+
+  pg_admin:
+    restart: always
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - .env
+    ports:
+      - "4001:80"
+
+volumes:
+  phoenix_db:
+  phoenix_build:
+  phoenix_deps:
+  key_cloak:
