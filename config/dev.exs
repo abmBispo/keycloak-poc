@@ -39,12 +39,11 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :key_cloak_poc, :openid_connect_providers,
-  phoenix: [
-    discovery_document_uri: "http://localhost:8080/.well-known/openid-configuration",
-    client_id: "CLIENT_ID",
-    client_secret: "CLIENT_SECRET",
-    redirect_uri: "https://example.com/session",
+  admin_key_cloak: [
+    discovery_document_uri: "http://key_cloak:8080/auth/realms/key_cloak_poc/.well-known/openid-configuration",
+    client_id: "phoenix",
+    # client_secret: "CLIENT_SECRET",
+    redirect_uri: "http://localhost:4000/session",
     response_type: "code",
     scope: "openid email profile"
   ]
-

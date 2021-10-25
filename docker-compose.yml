@@ -11,8 +11,10 @@ services:
       - "4000:4000"
     depends_on:
       - db
+      - key_cloak
     links:
       - db
+      - key_cloak
     env_file:
       - .env
     volumes:

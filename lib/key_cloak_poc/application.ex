@@ -15,8 +15,9 @@ defmodule KeyCloakPoc.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: KeyCloakPoc.PubSub},
       # Start the Endpoint (http/https)
-      KeyCloakPocWeb.Endpoint
+      KeyCloakPocWeb.Endpoint,
       # Start a worker by calling: KeyCloakPoc.Worker.start_link(arg)
+      {OpenIDConnect.Worker, Application.get_env(:key_cloak_poc, :openid_connect_providers)}
       # {KeyCloakPoc.Worker, arg}
     ]
 
