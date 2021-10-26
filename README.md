@@ -29,18 +29,18 @@ $ docker-compose pull
 
 Once you create the `.env` file you should be able to use `docker-compose` without build errors. The next step is to get the elixir dependencies. Run the command below. If no error messages show up, your environment is ready for development.
 ```
-$ docker-compose run --rm app mix do deps.get, deps.compile, compile
+$ docker-compose run --rm phoenix mix do deps.get, deps.compile, compile
 ```
 
 It's recommended to run the tests before you commit your changes:
 ```
-$ docker-compose run --rm app mix test
+$ docker-compose run --rm phoenix mix test
 ```
 
 The command above runs the pending database migrations, so there's no need to run them manually for the test environment. However, for the `dev` environment you must run them yourself:
 ```
-$ docker-compose run --rm app mix ecto.create
-$ docker-compose run --rm app mix ecto.migrate
+$ docker-compose run --rm phoenix mix ecto.create
+$ docker-compose run --rm phoenix mix ecto.migrate
 ```
 For rollbacks you just need to use `mix ecto.rollback`. Instead of `ecto.create` and `ecto.migrate`, you can run `ecto.setup` which will also run the seeds for the development environment. `ecto.reset` will drop, create and migrate the database.
 
@@ -55,8 +55,8 @@ You can check all running containers with:
 ```
 $ docker ps
 ```
-And if only `docker-compose` is running you may see something like (blurred parts don't matter and may differ):
-<img align="center" alt="docker ps" src="docs/docker-ps-example.png" />
+And if only `docker-compose` is running you may see something like:
+<img align="center" alt="docker ps" src="docs/Screenshot from 2021-10-26 01-41-47.png" />
 
 
 ## Environment
@@ -77,14 +77,14 @@ $ docker-compose run --rm app iex -S mix
 
 The PostgreSQL database runs at `localhost:5432`. To access the `psql` command line client the database container needs to be running, so you can use:
 ```
-$ docker-compose exec app_db psql
+$ docker-compose exec db psql
 ```
 
 ### pgAdmin
 
 `pgAdmin` plugin runs at `localhost:4001`. For people who aren't familiar with the `psql` client, there is also a graphical web client **pgAdmin**, where you can easily configure a connection using:
 ```
-host=app_db
+host=db
 user=postgres
 port=5432
 ```
